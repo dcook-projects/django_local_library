@@ -50,7 +50,11 @@ class Book(models.Model):
     genre = models.ManyToManyField(
         Genre, help_text="Select a genre for this book")
 
-    language = models.ManyToManyField('Language', help_text="Select a language for this book")
+    language = models.ManyToManyField('Language', help_text='Language the book is written in')
+    # language = models.ForeignKey('Language', on_delete=models.SET_NULL, null=True)
+
+    class Meta:
+        ordering = ['title']
 
     def display_genre(self):
         """Create a string for the Genre. This is required to display genre in Admin."""
@@ -120,7 +124,7 @@ class Author(models.Model):
 class Language(models.Model):
     """Model representing a language."""
     name = models.CharField(
-        max_length=30,
+        max_length=200,
         unique=True,
         help_text="Enter the language the book is written in."
     )
@@ -138,6 +142,6 @@ class Language(models.Model):
             UniqueConstraint(
                 Lower('name'),
                 name='language_name_case_insensitive_unique',
-                violation_error_message = "Genre already exists (case insensitive match)"
+                violation_error_message = "Language already exists (case insensitive match)"
             ),
         ]
