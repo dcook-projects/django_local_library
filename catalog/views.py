@@ -133,8 +133,19 @@ from .models import Author
 class AuthorCreate(PermissionRequiredMixin, CreateView):
     model = Author
     fields = ['first_name', 'last_name', 'date_of_birth', 'date_of_death']
-    initial = {'date_of_death': '11/11/2023'}
+    # initial = {'date_of_death': '11/11/2023'}
     permission_required = 'catalog.add_author'
+
+    """
+    def form_valid(self, form):
+        try:
+            self.object.create(first_name=form)
+            return HttpResponseRedirect(self.success_url)
+        except Exception as e:
+            return HttpResponseRedirect(
+                reverse("author-create")
+            )
+    """
 
 class AuthorUpdate(PermissionRequiredMixin, UpdateView):
     model = Author
